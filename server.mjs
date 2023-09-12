@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 //database
-const MONGO_URI = "mongodb://admin:8RdCpQbAXbdyFLdd@cluster0.kezrngw.mongodb.net/MyDB?retryWrites=true&w=majority";
+const MONGO_URI = "mongodb+srv://admin:8RdCpQbAXbdyFLdd@cluster0.kezrngw.mongodb.net/MyDB?retryWrites=true&w=majority";
 //admin
 //const url = process.env.MONGO_URL
 
@@ -34,8 +34,15 @@ mongoose.connect(MONGO_URI,
 const db = mongoose.connection;
 
 db.once('open', function(){
-    console.log("DB connection")
-})
+  console.log("db connect");
+
+  const msgCollection = db.collection("messagecontents");
+  const changeStream = msgCollection.watch();
+
+  changeStream.on("change",(change) =>{
+    console.log(change)
+  });
+});
 
 
 
