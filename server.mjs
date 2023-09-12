@@ -38,7 +38,8 @@ app.post("/api/v1/messages",async (req,res) =>{
     if (data.error) {
       res.status(500).send(data.error);
     } else {
-      res.status(201).send(data.result);
+      res.status(201).send(data);
+     
     }
 })
   
