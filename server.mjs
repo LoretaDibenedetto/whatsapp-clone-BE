@@ -30,6 +30,19 @@ app.get('/api',(req,res) => {
     res.status(200).send("Benvenuto sul server");
 });
 
+app.get('/api/v1/messages/sync',async(req,res)=>{
+ 
+    const data = await Messages.find();
+        if (data.error) {
+            res.status(500).send(data.error);
+          } else {
+            res.status(201).send(data);
+           
+          }
+    
+    res.status(200).send("SYNC OK");
+})
+
 app.post("/api/v1/messages",async (req,res) =>{
     const dbMessages = req.body;
    
