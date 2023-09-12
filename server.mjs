@@ -30,22 +30,20 @@ app.get('/api',(req,res) => {
     res.status(200).send("Benvenuto sul server");
 });
 
-app.post("/api/v1/messages", (req,res) =>{
+app.post("/api/v1/messages",async (req,res) =>{
     const dbMessages = req.body;
+   
+    const data = await Messages.create(dbMessages);
 
-    Messages.create(dbMessages)
+    if (data.error) {
+      res.status(500).send(data.error);
+    } else {
+      res.status(201).send(data.result);
+    }
+})
   
-    .then((res) => {
-    
-        console.log(res);
-     
-    })
-    .catch((err) => {
-       
-           console.log(err);
-        });
       
-    });
+
     
 
    
