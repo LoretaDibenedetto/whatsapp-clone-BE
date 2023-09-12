@@ -1,8 +1,19 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
+import Pusher from "pusher";
 dotenv.config();
 import Messages from  "./models/dbMessages.mjs";
+
+
+const pusher = new Pusher({
+  appId: "1669203",
+  key: "4a923e7496e850c7e247",
+  secret: "3eb7e7b105e86fe23eae",
+  cluster: "eu",
+  useTLS: true
+});
+
 
 const app = express();
 const port = process.env.PORT || 9000;
@@ -40,7 +51,17 @@ db.once('open', function(){
   const changeStream = msgCollection.watch();
 
   changeStream.on("change",(change) =>{
-    console.log(change)
+    console.log(change);
+    if(change.operationType === "insert"){
+      const record = change.fullDocument;
+
+      pusher.trigger("messages", "inserted", {
+        'name': record.name,
+        'message': record.message
+      });
+    }else{
+      console.log("not trigger pusher")
+    }
   });
 });
 
