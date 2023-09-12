@@ -9,10 +9,14 @@ const port = process.env.PORT || 9000;
 
 app.use(express.json());
 
+
+
 //database
-const MONGO_URI = "mongodb+srv://admin:8RdCpQbAXbdyFLdd@cluster0.kezrngw.mongodb.net/MyDB?retryWrites=true&w=majority";
+const MONGO_URI = "mongodb://admin:8RdCpQbAXbdyFLdd@cluster0.kezrngw.mongodb.net/MyDB?retryWrites=true&w=majority";
 //admin
 //const url = process.env.MONGO_URL
+
+
 mongoose.connect(MONGO_URI,
      {
         
@@ -26,6 +30,17 @@ mongoose.connect(MONGO_URI,
   console.log("N", err);
 });
 
+
+const db = mongoose.connection;
+
+db.once('open', function(){
+    console.log("DB connection")
+})
+
+
+
+
+/*Endpoint */
 app.get('/api',(req,res) => {
     res.status(200).send("Benvenuto sul server");
 });
