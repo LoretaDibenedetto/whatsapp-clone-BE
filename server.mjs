@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
 import Pusher from "pusher";
+import cors from "cors"
 dotenv.config();
 import Messages from  "./models/dbMessages.mjs";
 
@@ -19,7 +20,7 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 app.use(express.json());
-
+app.use(cors());
 
 
 //database
