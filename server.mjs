@@ -84,7 +84,7 @@ app.get('/api/v1/messages/sync',async(req,res)=>{
            
           }
     
-    res.status(200).send("SYNC OK");
+  
 })
 
 app.post("/api/v1/messages",async (req,res) =>{
